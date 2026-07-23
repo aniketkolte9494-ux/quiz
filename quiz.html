@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Our Love Quiz ❤️</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: linear-gradient(to right, #ffdde1, #ee9ca7);
+    }
+
+    .container {
+      margin-top: 50px;
+    }
+
+ img {
+  display: block;
+  margin: 10px auto;
+  max-height: 40vh;
+  width: auto;
+  max-width: 90%;
+  border-radius: 12px;
+}
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+      width: 250px;
+      border-radius: 10px;
+      border: none;
+      text-align: center;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin: 10px;
+      border-radius: 10px;
+      border: none;
+      background: #ff4b5c;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<audio id="bgMusic" loop>
+  <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<div class="container">
+  <h1>❤️ Our Memory Quiz ❤️</h1>
+
+  <h2 id="question"></h2>
+
+  <input type="text" id="answer" placeholder="Your answer">
+
+  <br>
+
+  <button onclick="submitAnswer()">Submit</button>
+  <button onclick="toggleMusic()">🎵 Music</button>
+<button onclick="nextQuestion()" id="nextBtn" disabled>Next ➡️</button>
+  <h3 id="result"></h3>
+
+  <img id="reward" style="display:none;">
+</div>
+
+<script>
+
+document.addEventListener("click", function () {
+  let music = document.getElementById("bgMusic");
+  music.play().catch(() => {});
+});
+
+let score = 0;
+let index = 0;
+
+const quiz = [
+  {
+    q: "1. how many dogs we have in bohol ?",
+    a: ["3","three"],
+    img: "1.jpg",
+    correct: "3 (three)"
+  },
+  {
+    q: "2. what is the name of our bike in cebu ?",
+    a: ["burgman"],
+    img: "2.jpg",
+    correct: "Burgman"
+  },
+  {
+    q: "3. First place to live together ?",
+    a: ["ycn"],
+    img: "3.jpg",
+    correct: "YCN"
+  },
+  {
+    q: "4. what's the name of our favourite tuna ?",
+    a: ["megatuna"],
+    img: "4.jpg",
+    correct: "Mega tuna"
+  },
+  {
+    q: "5. what's our most imp cooking utensil ?",
+    a: ["kettle"],
+    img: "5.jpg",
+    correct: "Kettle"
+  },
+  {
+    q: "6. what's my favourite pizza brand in cebu ?",
+    a: ["albertos"],
+    img: "6.jpg",
+    correct: "Albertos"
+  },
+  {
+    q: "7. what's the favourite place to eat in Ayala mall cebu ?",
+    a: ["burgerking"],
+    img: "7.jpg",
+    correct: "Burger King"
+  },
+  {
+    q: "8. where was our favourite house in philippines ?",
+    a: ["bohol"],
+    img: "8.jpg",
+    correct: "Bohol"
+  },
+  {
+    q: "9. what's favrourite place to shop in ayala mall ?",
+    a: ["diy"],
+    img: "9.jpg",
+    correct: "DIY"
+  },
+  {
+    q: "10. what the favourite chicken we like to eat ?",
+    a: ["mang inasal"],
+    img: "10.jpg",
+    correct: "Mang Inasal"
+  }
+];
+
+function loadQuestion() {
+  document.getElementById("question").innerText = quiz[index].q;
+  document.getElementById("answer").value = "";
+  document.getElementById("result").innerText = "";
+  document.getElementById("reward").style.display = "none";
+
+document.getElementById("nextBtn").disabled = true;
+}
+
+function submitAnswer() {
+  let userAns = document.getElementById("answer").value.toLowerCase().trim();
+
+  if (quiz[index].a.includes(userAns)) {
+    document.getElementById("result").innerText = "✅ Correct ❤️";
+    score++;
+  } else {
+    document.getElementById("result").innerText =
+      "❌ Wrong! Correct answer: " + quiz[index].correct;
+  }
+
+
+  // Always show reward image
+  let img = document.getElementById("reward");
+img.src = quiz[index].img;
+img.onerror = function() {
+  alert("Image not found: " + quiz[index].img);
+};
+  img.style.display = "block";
+
+index++;
+
+document.getElementById("nextBtn").disabled = false;
+
+}
+
+function nextQuestion() {
+  if (index < quiz.length) {
+    loadQuestion();
+  } else {
+    showFinalResult();
+  }
+}
+
+function showFinalResult() {
+  document.body.innerHTML = `
+    <h1>🎉 Quiz Completed ❤️</h1>
+    <h2>Your Score: ${score}/10</h2>
+
+    <p style="font-size:18px; padding:20px;">
+    No matter what the score is… ❤️<br><br>
+    Every memory with you is special 💕<br>
+    😘
+    </p>
+
+    <button onclick="alert('❤️')">🎁 Surprise</button>
+  `;
+}
+
+function toggleMusic() {
+  let music = document.getElementById("bgMusic");
+
+  if (music.paused) {
+    music.play().then(() => {
+      console.log("Music started");
+    }).catch(err => {
+      alert("Click anywhere first to enable music");
+    });
+  } else {
+    music.pause();
+  }
+}
+loadQuestion();
+
+</script>
+
+</body>
+</html>
